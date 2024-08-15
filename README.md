@@ -10,7 +10,10 @@ pip3 install python-dotenv
 
 download all the files
 
-replace everything in `.env` with your discord token
+replace everything in `.env` with this:
+```
+TOKEN = YOURTOKENHERE
+```
 
 run 
 ```
