@@ -9,6 +9,9 @@ pip3 install python-dotenv
 ```
 
 download all the files
+
 replace everything in `.env` with your discord token
+
 run `python3 main.py`
+
 bot should run i think
