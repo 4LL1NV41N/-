@@ -6,9 +6,9 @@ from dotenv import load_dotenv
 load_dotenv()
 print("loaded dotenv")
 
-SECRET = "maestrefi"                                                              # this is the secret phrase
+SECRET = "maestrefi"                                                                    # this is the secret phrase
 RESPONSE = "insert teh end of the youtube link here!!! :33"                             # this is the clue that the bot will drop
-YAP = f"Congrats blah blah balh here is the next clue ```{RESPONSE}``` blah blah"              # this is whatever the bot yaps about. you can use '''triple quotes''' if you want
+YAP = f"Congrats blah blah balh here is the next clue ```{RESPONSE}``` blah blah"       # this is whatever the bot yaps about. you can use '''triple quotes''' if you want
 __TOKEN = str(os.getenv("TOKEN"))                                                       # put your token in .env https://guide.pycord.dev/getting-started/creating-your-first-bot#using-dotenv 
 # DO NOT PUBLISH YOUR DISCORD TOKEN ONLINE. IT SHOULD NOT BE SHARED
 
