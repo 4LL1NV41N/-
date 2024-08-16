@@ -1,5 +1,7 @@
 import discord, os
 from dotenv import load_dotenv
+import asyncio
+import random
 
 # made with love by natalie!! :3c
 
@@ -18,10 +20,19 @@ try:
 except Exception as e:
     print(f"some error occured while trying to load the bot :((\nSTART OF OUTPUT\n{e}\nEND OF OUTPUT\naw man :(")
 
+async def send_random_emoji():
+    await client.wait_until_ready()
+    channel = client.get_channel(1273798734253133827)  # Replace with your channel ID
+    while not client.is_closed():
+        await asyncio.sleep(random.randint(3600, 10800))  # Wait for 1 to 3 hours
+        await channel.send('<:dimini:1273803816357199873>')
+
 @client.event
 async def on_ready():
+    print(f"logged in as {client.user}")
     print("bot is running!! have fun!! :3")
     print("made with love by ellipticobj :3c")
+    client.loop.create_task(send_random_emoji())
 
 @client.event
 async def on_message(ctx):
