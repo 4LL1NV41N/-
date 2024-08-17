@@ -7,6 +7,7 @@ import random
 
 load_dotenv()
 print("loaded dotenv")
+print("bot starting... please hold on for a moment...")
 
 SECRET = "maestrefi"                                                                    # this is the secret phrase
 RESPONSE = "insert teh end of the youtube link here!!! :33"                             # this is the clue that the bot will drop
@@ -14,9 +15,11 @@ YAP = f"Congrats blah blah balh here is the next clue ```{RESPONSE}``` blah blah
 __TOKEN = str(os.getenv("TOKEN"))                                                       # put your token in .env https://guide.pycord.dev/getting-started/creating-your-first-bot#using-dotenv 
 # DO NOT PUBLISH YOUR DISCORD TOKEN ONLINE. IT SHOULD NOT BE SHARED
 
+intents = discord.Intents.all()
+
 # init bot
 try:
-    client = discord.Bot()
+    client = discord.Bot(intents=intents)
 except Exception as e:
     print(f"some error occured while trying to load the bot :((\nSTART OF OUTPUT\n{e}\nEND OF OUTPUT\naw man :(")
 
@@ -24,9 +27,27 @@ async def send_random_emoji():
     await client.wait_until_ready()
     channel = client.get_channel(1273798734253133827)  # Replace with your channel ID
     while not client.is_closed():
-        await asyncio.sleep(random.randint(3600, 10800))  # Wait for 1 to 3 hours
+        await asyncio.sleep(random.randint(972, 2916))  # Wait for 1 to 3 hours
+        print("sent <:dimini:1273803816357199873> lol")
         await channel.send('<:dimini:1273803816357199873>')
-
+        
+@client.command(name='say')
+async def say(ctx, *, message: str):
+    print(f"say used: {message}")
+    try:
+        await ctx.message.delete()
+    except Exception as e:
+        print(f"error while using ^say: {e}")
+    await ctx.respond(message)
+    
+async def saycmd(ctx, channel):
+    message = ctx.content[5::]
+    print(f"say used: {message}")
+    try:
+        await ctx.message.delete()
+    except Exception as e:
+        print(f"error while using ^say: {e}")
+    await channel.send(message)
 @client.event
 async def on_ready():
     print(f"logged in as {client.user}")
@@ -36,9 +57,24 @@ async def on_ready():
 
 @client.event
 async def on_message(ctx):
-    print(f"message \"{ctx.content}\" sent by user {ctx.author.name} ({ctx.author})")
+    print(f"message \"{ctx.content}\" sent by user {ctx.author}")
     s = ctx.content
-    if s.lower().strip() == SECRET:
+    print(s)
+    if ctx.content[0:4] == "^say":
+        channel = client.get_channel(ctx.channel)
+        message = ctx.content[5::]
+        print(f"say used: {message}")
+        try:
+            await ctx.message.delete()
+        except Exception as e:
+            print(f"error while using ^say: {e}")
+        await channel.send(message)
+    elif ctx.content.lower().strip() == SECRET and ctx.author.id != client.user.id:
+        try:
+            await ctx.message.delete()
+        except Exception as e:
+            print(f"some error occured while trying to load the bot :((\nSTART OF OUTPUT\n{e}\nEND OF OUTPUT\naw man :(")
+
         print(f"woah {ctx.author} got it right!!")
         await ctx.author.send(YAP)
         print(f"clue given!! :3")
