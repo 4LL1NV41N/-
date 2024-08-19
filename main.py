@@ -25,12 +25,20 @@ except Exception as e:
 
 async def send_random_emoji():
     await client.wait_until_ready()
-    channel = client.get_channel(1273798734253133827)  # Replace with your channel ID
+    channel = client.get_channel(1273798734253133827) 
     while not client.is_closed():
-        await asyncio.sleep(random.randint(972, 2916))  # Wait for 1 to 3 hours
+        await asyncio.sleep(random.randint(972, 2916))
         print("sent <:dimini:1273803816357199873> lol")
         await channel.send('<:dimini:1273803816357199873>')
+        await channel.send(file=discord.File('/Users/nat/Downloads/DIMINI.mp4'))
         
+        
+@client.command(name="dimini")
+async def dimini(ctx):
+    print("sent <:dimini:1273803816357199873> lol")
+    await ctx.send('<:dimini:1273803816357199873>')
+    await ctx.send(file=discord.File('/Users/nat/Downloads/DIMINI.mp4'))
+
 @client.command(name='say')
 async def say(ctx, *, message: str):
     print(f"say used: {message}")
