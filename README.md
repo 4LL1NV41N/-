@@ -13,7 +13,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
-## For macos using brew
+## For macos using [brew](brew.sh)
 run these commands
 ```bash
 wget https://raw.githubusercontent.com/4LL1NV41N/-/attempt-to-add-an-install-script/install-macos.sh 
