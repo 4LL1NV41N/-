@@ -32,3 +32,4 @@ while true; do
         echo "${RED}Token incorrect${NC}"
     fi
 done
+echo "installation complete, install.sh quitting"
