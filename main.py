@@ -28,16 +28,30 @@ async def send_random_emoji():
     channel = client.get_channel(1273798734253133827) 
     while not client.is_closed():
         await asyncio.sleep(random.randint(2916, 8748))
-        print("sent <:dimini:1273803816357199873> lol")
-        await channel.send('<:dimini:1273803816357199873>')
-        await channel.send(file=discord.File('/Users/nat/Downloads/DIMINI.mp4'))
+        if random.randint(0,1) == 1:
+            print("sent <:dimini:1273803816357199873> lol")
+            await channel.send('<:dimini:1273803816357199873>')
+            await channel.send(file=discord.File('/Users/nat/Downloads/DIMINI.mp4'))
+        else:
+            file = discord.File("https://ibb.co/kmrcmn8", filename="image.png")
+            embed = discord.Embed()
+            embed.set_image(url="attachment://image.png")
+            await channel.send(file=file, embed=embed)
         
         
 @client.command(name="dimini")
 async def dimini(ctx):
     print("sent <:dimini:1273803816357199873> lol")
-    await ctx.send('<:dimini:1273803816357199873>')
-    await ctx.send(file=discord.File('/Users/nat/Downloads/DIMINI.mp4'))
+    await ctx.response('<:dimini:1273803816357199873>')
+    await ctx.response(file=discord.File('/Users/nat/Downloads/DIMINI.mp4'))
+    
+@client.command(name="george")
+async def george(ctx):
+    print("george")
+    file = discord.File("https://ibb.co/kmrcmn8", filename="image.png")
+    embed = discord.Embed()
+    embed.set_image(url="attachment://image.png")
+    await ctx.response(file=file, embed=embed)
 
 @client.command(name='say')
 async def say(ctx, *, message: str):
