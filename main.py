@@ -27,7 +27,7 @@ async def send_random_emoji():
     await client.wait_until_ready()
     channel = client.get_channel(1273798734253133827) 
     while not client.is_closed():
-        await asyncio.sleep(random.randint(972, 2916))
+        await asyncio.sleep(random.randint(2916, 8748))
         print("sent <:dimini:1273803816357199873> lol")
         await channel.send('<:dimini:1273803816357199873>')
         await channel.send(file=discord.File('/Users/nat/Downloads/DIMINI.mp4'))
@@ -48,6 +48,12 @@ async def say(ctx, *, message: str):
         print(f"error while using ^say: {e}")
     await ctx.respond(message)
     
+@client.command(name='debug')
+async def debug(ctx):
+    channel = client.get_channel(1273808376295456868)
+    data = {"bot user id": client.user.id}
+    await channel.send(data)
+    
 async def saycmd(ctx, channel):
     message = ctx.content[5::]
     print(f"say used: {message}")
@@ -65,29 +71,31 @@ async def on_ready():
 
 @client.event
 async def on_message(ctx):
-    print(f"message \"{ctx.content}\" sent by user {ctx.author}")
-    s = ctx.content
-    print(s)
-    if ctx.content[0:4] == "^say":
-        channel = client.get_channel(ctx.channel)
-        message = ctx.content[5::]
-        print(f"say used: {message}")
-        try:
-            await ctx.message.delete()
-        except Exception as e:
-            print(f"error while using ^say: {e}")
-        await channel.send(message)
-    elif ctx.content.lower().strip() == SECRET and ctx.author.id != client.user.id:
-        try:
-            await ctx.message.delete()
-        except Exception as e:
-            print(f"some error occured while trying to load the bot :((\nSTART OF OUTPUT\n{e}\nEND OF OUTPUT\naw man :(")
+    if ctx.author.id != client.user.id:
+        print(f"message \"{ctx.content}\" sent by user {ctx.author}")
+        s = ctx.content
+        print(s)
+        print(f"author id: {ctx.author.id}")
+        if ctx.content[0:4] == "^say":
+            channel = client.get_channel(ctx.channel)
+            message = ctx.content[5::]
+            print(f"say used: {message}")
+            try:
+                await ctx.message.delete()
+            except Exception as e:
+                print(f"error while using ^say: {e}")
+            await channel.send(message)
+        elif ctx.content.lower().strip() == SECRET:
+            try:
+                await ctx.message.delete()
+            except Exception as e:
+                print(f"some error occured while trying to load the bot :((\nSTART OF OUTPUT\n{e}\nEND OF OUTPUT\naw man :(")
 
-        print(f"woah {ctx.author} got it right!!")
-        await ctx.author.send(YAP)
-        print(f"clue given!! :3")
-    else:
-        print(f"tehy got it wrong")
+            print(f"woah {ctx.author} got it right!!")
+            await ctx.author.send(YAP)
+            print(f"clue given!! :3")
+        else:
+            print(f"tehy got it wrong")
 
 client.run(__TOKEN)
 # (c) Copyright 2024 Natalie http://github.com/ellipticobj http://ithub.com/mysteriousellipsis
