@@ -14,6 +14,11 @@ chmod +x install.sh
 ```
 
 ## For macos using [brew](brew.sh)
+if you do not have brew, run this:
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
 run these commands
 ```bash
 wget https://raw.githubusercontent.com/4LL1NV41N/-/attempt-to-add-an-install-script/install-macos.sh 
