@@ -17,7 +17,13 @@ if you do not have brew, run this:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-run these commands
+make sure you have git and python installed with brew:
+```bash
+brew install git
+brew install python
+```
+
+run the install script
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/4LL1NV41N/-/attempt-to-add-an-install-script/install-macos.sh)"
 ```
