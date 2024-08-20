@@ -1,7 +1,7 @@
-# this is secret shhh
+# yay this is a bot
 
 ## how to use
-I ASSUME YOU HAVE SET UP YOUR BOT WITH ALL NECESSARY PERMS
+these instructions are only for this python code. to set up the bot, check [this link](https://guide.pycord.dev/getting-started/creating-your-first-bot) 
 install pycord and dotenv:
 ```
 pip3 install py-cord
