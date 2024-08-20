@@ -8,9 +8,7 @@ NOTE: Please have at least 2gb of free space for this. Having less is fine, but 
 ## For linux using apt
 run these commands
 ```bash
-wget https://raw.githubusercontent.com/4LL1NV41N/-/attempt-to-add-an-install-script/install.sh 
-chmod +x install.sh
-./install.sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/4LL1NV41N/-/attempt-to-add-an-install-script/install.sh)"
 ```
 
 ## For macos using [brew](brew.sh)
@@ -21,9 +19,7 @@ if you do not have brew, run this:
 
 run these commands
 ```bash
-wget https://raw.githubusercontent.com/4LL1NV41N/-/attempt-to-add-an-install-script/install-macos.sh 
-chmod +x install-macos.sh
-./install-macos.sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/4LL1NV41N/-/attempt-to-add-an-install-script/install-macos.sh)"
 ```
 # License
 
