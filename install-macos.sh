@@ -5,10 +5,10 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-sudo brew update
-sudo brew upgrade
-sudo brew install git
-sudo brew install python
+brew update
+brew upgrade
+brew install git
+brew install python
 python3 -m ensurepip
 python3 -m pip config set global.break-system-packages true
 pip3 install py-cord
