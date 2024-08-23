@@ -29,8 +29,9 @@ run the install script
 ```
 # License
 
-(c) Copyright 2024 Natalie http://github.com/ellipticobj http://ithub.com/mysteriousellipsis
-(c) Copyright 2024 Thern http://github.com/DystopianDood09 http://github.com/4LL1NV4IN
+(c) Copyright 2024 Natalie [ellipticobj](http://github.com/ellipticobj) [mysteriousellipsis](http://ithub.com/mysteriousellipsis)
+
+(c) Copyright 2024 Thern [dystopiandood](http://github.com/DystopianDood09) [4LL1NV41N](http://github.com/4LL1NV4IN)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of 
 this software and associated documentation files (the “Software”), to deal in the 
