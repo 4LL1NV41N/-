@@ -14,7 +14,7 @@ RESPONSE = "insert teh end of the youtube link here!!! :33"                     
 YAP = "Congrats blah blah balh here is the next clue ```" + RESPONSE + "``` blah blah"      # optimizing concatenation
 __TOKEN = os.getenv("TOKEN")                                                                # use getenv without casting to string, it's already a string in env vars
 
-intents = discord.Intents.default()  # use only required intents to save memory
+intents = discord.Intents.all()  # use only required intents to save memory
 
 # init bot
 try:
@@ -39,15 +39,15 @@ async def on_ready():
     print("made with love by ellipticobj :3c")
 
 @client.event
-async def on_message(ctx):
-    print(f"message \"{ctx.content}\" sent by user {ctx.author}")
-    if ctx.content.lower().strip() == SECRET and ctx.author.id != client.user.id:
+async def on_message(message):
+    print(f"message \"{message.content}\" sent by user {message.author}")
+    if message.content.lower().strip() == SECRET and message.author.id != client.user.id:
         try:
-            await ctx.message.delete()
+            await message.delete()
         except Exception as e:
             print(f"some error occured while trying to delete the message :((\nSTART OF OUTPUT\n{e}\nEND OF OUTPUT\naw man :(")
-        print(f"woah {ctx.author} got it right!!")
-        await ctx.author.send(YAP)
+        print(f"woah {message.author} got it right!!")
+        await message.author.send(YAP)
         print(f"clue given!! :3")
     else:
         print(f"tehy got it wrong")
