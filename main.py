@@ -9,8 +9,11 @@ print("bot starting... please hold on for a moment...")
 
 SECRET = "maestrefi"                                                                        # this is the secret phrase
 RESPONSE = "insert teh end of the youtube link here!!! :33"                                 # this is the clue that the bot will drop
-YAP = "Congrats blah blah balh here is the next clue ```" + RESPONSE + "``` blah blah"      # optimizing concatenation
-__TOKEN = os.getenv("TOKEN")                                                                # use getenv without casting to string, it's already a string in env vars
+YAP = "Congrats blah blah balh here is the next clue ```" + RESPONSE + "``` blah blah"      # thsi si the yap
+__TOKEN = os.getenv("TOKEN")                                                                # dimini discord token
+ratelimiting = True
+clearingrates = True
+
 
 intents = discord.Intents.all()  # use only required intents to save memory
 
@@ -35,24 +38,47 @@ async def on_ready():
     print(f"logged in as {client.user}")
     print("bot is running!! have fun!! :3")
     print("made with love by ellipticobj :3c")
+    client.loop.create_task(clear_rate())
 
 @client.event
 async def on_message(message):
-    print(f"message \"{message.content}\" sent by user {message.author}")
-    if message.content.lower().strip() == SECRET and message.author.id != client.user.id:
-        try:
-            await message.delete()
-        except Exception as e:
-            print(f"some error occured while trying to delete the message :((\nSTART OF OUTPUT\n{e}\nEND OF OUTPUT\naw man :(")
-        print(f"woah {message.author} got it right!!")
-        await message.author.send(YAP)
-        print(f"clue given!! :3")
+    file = open("rate.json", "wr")
+    data = json.load(file)
+    if message.author.id in data:
+        data[message.author.id] += 1
     else:
-        print(f"tehy got it wrong")
+        data[message.author.id] = 1
+    if data[message.author.id] < 20:
+        print(f"message \"{message.content}\" sent by user {message.author}")
+        if message.content.lower().strip() == SECRET and message.author.id != client.user.id:
+            try:
+                await message.delete()
+            except Exception as e:
+                print(f"some error occured while trying to delete the message :((\nSTART OF OUTPUT\n{e}\nEND OF OUTPUT\naw man :(")
+            print(f"woah {message.author} got it right!!")
+            await message.author.send(YAP)
+            print(f"clue given!! :3")
+        else:
+            print(f"tehy got it wrong")
+    else:
+        message.response("You are sending requests too quickly.", ephemeral=True)
         
 async def clear_rate():
-    with open("rate.json","wr") as file:
-        data = json.load(file)
+    while True:
+        if clearingrates:
+            print("clearing rate")
+            try:
+                with open("rate.json","wr") as file:
+                    data = json.load(file)
+                    for key in data:
+                        data[key] = 0
+                    json.dump(data, file)
+            except Exception as e:
+                print(f"an error occured while trying to clear rates: {e}")
+        else:
+            print("clearing rates turned off")
+        await asyncio.sleep(3600)
+        
 
 client.run(__TOKEN)
 
