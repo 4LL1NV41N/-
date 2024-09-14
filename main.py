@@ -1,7 +1,5 @@
-import discord, os
+import discord, os, asyncio
 from dotenv import load_dotenv
-import asyncio
-import random
 
 # made with love by natalie!! :3c
 
