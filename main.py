@@ -1,4 +1,4 @@
-import discord, os, asyncio
+import discord, os, asyncio, json
 from dotenv import load_dotenv
 
 # made with love by natalie!! :3c
@@ -49,6 +49,10 @@ async def on_message(message):
         print(f"clue given!! :3")
     else:
         print(f"tehy got it wrong")
+        
+async def clear_rate():
+    with open("rate.json","wr") as file:
+        data = json.load(file)
 
 client.run(__TOKEN)
 
