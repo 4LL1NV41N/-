@@ -4,6 +4,7 @@ rm -rf ./-/
 
 sudo apt update
 sudo apt upgrade
+sudo apt install tmux
 sudo apt install git
 sudo apt install python3
 sudo apt install python3-pip -y
@@ -13,6 +14,7 @@ pip3 install python-dotenv
 git clone http://github.com/4ll1nv41n/-/
 cd ./-/
 touch rate.json
+tmux
 echo ""
 echo ""
 echo "Enter your discord bot token. This data will not be shared.\n"
