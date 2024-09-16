@@ -1,35 +1,64 @@
-import discord, os, asyncio, json
+import discord, os, asyncio, json, logging
 from dotenv import load_dotenv
 
 # made with love by natalie!! :3c
 
-load_dotenv()
-print("loaded dotenv")
-print("bot starting... please hold on for a moment...")
+# logging config
+logging.basicConfig(level=logging.INFO)
 
+# loading token
+load_dotenv()
+logging.info("loaded dotenv")
+logging.info("bot starting... please hold on for a moment...")
+__TOKEN = os.getenv("TOKEN")                                                                # dimini discord token
+
+# initializing variables
 SECRET = "maestrefi"                                                                        # this is the secret phrase
 RESPONSE = "vYfj4iP2yuw"                                                                    # this is the clue that the bot will drop
 YAP = f"Good job. Here is your clue for the next step: ```{RESPONSE}``` Good luck."         # thsi si the yap
-__TOKEN = os.getenv("TOKEN")                                                                # dimini discord token
 ratelimiting = True
 clearingrates = True
 
+# starting bot
+client = discord.Bot(intents=discord.Intents.all(),debug_guilds=[1273798733703675976])
 
-intents = discord.Intents.all()  # use only required intents to save memory
+def loadjson(filename, defaultval="{\n    \n}"):
+    try:
+        with open(filename, "r") as file:
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        logging.warning(f"{filename} either does not exist or is not initialized.")
+        logging.info(f"initializing {filename}")
+        with open(filename, "w") as file:
+            json.dump(defaultval, file, indent=4)
+        return defaultval
 
-# init bot
-try:
-    client = discord.Bot(intents=intents,debug_guilds=[1273798733703675976])
-except Exception as e:
-    print(f"some error occured while trying to load the bot :((\nSTART OF OUTPUT\n{e}\nEND OF OUTPUT\naw man :(")
+def savejson(filename, data):
+    with open(filename, "w") as file:
+        json.dump(data, file, indent=4)
+        
+async def handle_secret(message):
+    try:
+        await message.delete()
+    except Exception as e:
+        logging.error(f"Error deleting message: {e}")
+
+    winners = loadjson("win.json")
+    
+    if message.author.id in winners:
+        await message.author.send("You already got the clue.")
+    else:
+        await message.author.send(YAP)
+        winners[message.author.id] = 1
+        savejson("win.json", winners)
 
 @client.command(name="dimini")
 async def dimini(ctx):
-    print("sent <:dimini:1273803816357199873> lol")
+    logging.info("sent <:dimini:1273803816357199873> lol")
     await ctx.respond('<:dimini:1273803816357199873>')
     await ctx.respond(file=discord.File('DIMINI.mp4'))
 
-@client.command(name='say')
+@client.command(name="say")
 async def say(ctx, *, message: str):
     await ctx.respond(message)
 
@@ -49,140 +78,67 @@ async def ratelimitdisable(ctx):
 
 clearrates = discord.SlashCommandGroup("clearrates", "enable or disable rate clearing")
 
-@clearrates.command()
+@clearrates.command(name="clear")
 async def clear(ctx):
     try:
-        with open("rate.json","r") as file:
-            data = json.load(file)
+        data = loadjson("rate.json")
         for key in data:
             data[key] = 0
-        with open("rate.json", "w") as file:
-            json.dump(data, file, indent=4)
-            await ctx.respond("rates cleared", ephemeral=True)
+        savejson("rate.json", data)
+        await ctx.respond("rates cleared", ephemeral=True)
     except Exception as e:
-        await ctx.respond(f"an error occured while trying to clear rates: {e}", ephemeral=True)
-        await ctx.respond("rates not cleared", ephemeral=True)
+        await ctx.respond(f"An error occurred while clearing rates: {e}", ephemeral=True)
 
 @clearrates.command(name="enable")
 async def enableclearrates(ctx):
-    global clearrates
-    clearrates = True
-    await ctx.respond(f"rate clearing toggled to {clearrates}", ephemeral=True)
+    global clearingrates
+    clearingrates = True
+    await ctx.respond(f"rate clearing toggled to {clearingrates}", ephemeral=True)
 
 @clearrates.command(name="disable")
 async def disableclearrates(ctx):
-    global clearrates
-    clearrates = False
-    await ctx.respond(f"rate clearing toggled to {clearrates}", ephemeral=True)
+    global clearingrates
+    clearingrates = False
+    await ctx.respond(f"rate clearing toggled to {clearingrates}", ephemeral=True)
 
 @client.event
 async def on_ready():
-    print(f"logged in as {client.user}")
-    print("bot is running!! have fun!! :3")
-    print("made with love by ellipticobj :3c")
+    logging.info(f"Logged in as {client.user}")
+    logging.info("Bot is running!! Have fun!! :3")
     client.loop.create_task(clear_rate())
-
+    
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
 
-    # handling rate limiting n stuff
-    with open("rate.json", "r") as file:
-        data = json.load(file)
-
+    data = loadjson("rate.json")
     user_id = str(message.author.id)
     data[user_id] = data.get(user_id, 0) + 1
+    savejson("rate.json", data)
 
-    with open("rate.json", "w") as file:
-        json.dump(data, file, indent=4)
-
-    if data[str(message.author.id)] < 20 and ratelimiting:
-        print(f"message \"{message.content}\" sent by user {message.author}")
+    if data[user_id] < 20 and ratelimiting:
+        logging.info(f'Message "{message.content}" sent by user {message.author}')
         if message.content.lower().strip() == SECRET:
-            try:
-                await message.delete()
-            except Exception as e:
-                print(f"some error occured while trying to delete the message :((\nSTART OF OUTPUT\n{e}\nEND OF OUTPUT\naw man :(")
-            try:
-                with open("win.json","r") as winners:
-                    if message.author.id in winners:
-                        print(f"{message.author} answered again..?")
-                        await message.author.send("You already got the clue.")
-                    else:
-                        print(f"woah {message.author} got it right!!")
-                        await message.author.send(YAP)
-                        print(f"clue given!! :3")
-                        
-                        with open("win.json","r") as file:
-                            data = json.load(file)
-                        data[message.author.id] = 1
-                        with open("win.json", "w") as file:
-                            json.dump(data, file, indent=4)
-                        print("user written to win.json")
-                    
-            except FileNotFoundError:
-                print("win.json does not exist, creating file and initializing")
-                with open('win.json', 'w') as file:
-                    file.write("{\n    \n}")
-                if message.author.id in winners:
-                    print(f"{message.author} answered again..?")
-                    await message.author.send("You already got the clue.")
-                else:
-                    print(f"woah {message.author} got it right!!")
-                    await message.author.send(YAP)
-                    print(f"clue given!! :3")
-                
-            except json.decoder.JSONDecodeError:
-                print("win.json empty, initializing file")
-                with open("win.json","w") as file:
-                    file.write("{\n    \n}")
-                if message.author.id in winners:
-                    print(f"{message.author} answered again..?")
-                    await message.author.send("You already got the clue.")
-                else:
-                    print(f"woah {message.author} got it right!!")
-                    await message.author.send(YAP)
-                    print(f"clue given!! :3")
-                
+            await handle_secret(message)
         else:
-            print(f"tehy got it wrong")
-    elif data[str(message.author.id)] >= 20 and ratelimiting:
+            logging.info("Incorrect guess.")
+    elif data[user_id] >= 20 and ratelimiting:
         await message.author.send("You are sending requests too quickly.")
     elif not ratelimiting:
-        print("rate limiting off.")
+        logging.info("Rate limiting is off.")
 
 async def clear_rate():
     while True:
         if clearingrates:
-            print("clearing rate")
-            try:
-                with open("rate.json","r") as file:
-                    data = json.load(file)
-                for key in data:
-                    data[key] = 0
-                with open("rate.json", "w") as file:
-                    json.dump(data, file, indent=4)
-                    print("rates cleared")
-            except FileNotFoundError:
-                print("rate.json does not exist, creating file and initializing")
-                with open('rate.json', 'w') as file:
-                    file.write("{\n    \n}")
-                print("attempting to clear rates again")
-                continue
-            except json.decoder.JSONDecodeError:
-                print("rate.json empty, initializing file")
-                with open("rate.json","w") as file:
-                    file.write("{\n    \n}")
-                print("attempting to clear rates again")
-                continue
-            except Exception as e:
-                print(f"an error occured while trying to clear rates: {e}")
-                print("rates not cleared, rate limiting turned off")
-                global ratelimiting
-                ratelimiting = False
+            logging.info("Clearing rate limits.")
+            data = loadjson("rate.json")
+            for key in data:
+                data[key] = 0
+            savejson("rate.json", data)
+            logging.info("Rates cleared.")
         else:
-            print("clearing rates turned off")
+            logging.info("Rate clearing is turned off.")
         await asyncio.sleep(3600)
 
 client.add_application_command(ratelimit)
