@@ -104,9 +104,31 @@ async def on_message(message):
                 await message.delete()
             except Exception as e:
                 print(f"some error occured while trying to delete the message :((\nSTART OF OUTPUT\n{e}\nEND OF OUTPUT\naw man :(")
-            print(f"woah {message.author} got it right!!")
-            await message.author.send(YAP)
-            print(f"clue given!! :3")
+            try:
+                with open("win.json","r") as winners:
+                    if message.author.id in winners:
+                        print(f"{message.author} answered again..?")
+                        await message.author.send("You already got the clue.")
+                    else:
+                        print(f"woah {message.author} got it right!!")
+                        await message.author.send(YAP)
+                        print(f"clue given!! :3")
+                        with open("win.json","r") as file:
+                            data = json.load(file)
+                        data[message.author.id] = 1
+                        with open("win.json", "w") as file:
+                            json.dump(data, file, indent=4)
+                        print("user written to win.json")
+            except FileNotFoundError:
+                print("win.json does not exist, creating file and initializing")
+                with open('rate.json', 'w') as file:
+                    file.write("{\n    \n}")
+                
+            except json.decoder.JSONDecodeError:
+                print("rate.json empty, initializing file")
+                with open("rate.json","w") as file:
+                    file.write("{\n    \n}")
+                
         else:
             print(f"tehy got it wrong")
     elif data[str(message.author.id)] >= 20 and ratelimiting:
