@@ -113,21 +113,37 @@ async def on_message(message):
                         print(f"woah {message.author} got it right!!")
                         await message.author.send(YAP)
                         print(f"clue given!! :3")
+                        
                         with open("win.json","r") as file:
                             data = json.load(file)
                         data[message.author.id] = 1
                         with open("win.json", "w") as file:
                             json.dump(data, file, indent=4)
                         print("user written to win.json")
+                    
             except FileNotFoundError:
                 print("win.json does not exist, creating file and initializing")
                 with open('win.json', 'w') as file:
                     file.write("{\n    \n}")
+                if message.author.id in winners:
+                    print(f"{message.author} answered again..?")
+                    await message.author.send("You already got the clue.")
+                else:
+                    print(f"woah {message.author} got it right!!")
+                    await message.author.send(YAP)
+                    print(f"clue given!! :3")
                 
             except json.decoder.JSONDecodeError:
                 print("win.json empty, initializing file")
                 with open("win.json","w") as file:
                     file.write("{\n    \n}")
+                if message.author.id in winners:
+                    print(f"{message.author} answered again..?")
+                    await message.author.send("You already got the clue.")
+                else:
+                    print(f"woah {message.author} got it right!!")
+                    await message.author.send(YAP)
+                    print(f"clue given!! :3")
                 
         else:
             print(f"tehy got it wrong")
