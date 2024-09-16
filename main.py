@@ -121,12 +121,12 @@ async def on_message(message):
                         print("user written to win.json")
             except FileNotFoundError:
                 print("win.json does not exist, creating file and initializing")
-                with open('rate.json', 'w') as file:
+                with open('win.json', 'w') as file:
                     file.write("{\n    \n}")
                 
             except json.decoder.JSONDecodeError:
-                print("rate.json empty, initializing file")
-                with open("rate.json","w") as file:
+                print("win.json empty, initializing file")
+                with open("win.json","w") as file:
                     file.write("{\n    \n}")
                 
         else:
