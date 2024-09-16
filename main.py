@@ -126,6 +126,18 @@ async def clear_rate():
                 with open("rate.json", "w") as file:
                     json.dump(data, file, indent=4)
                     print("rates cleared")
+            except FileNotFoundError:
+                print("rate.json does not exist, creating file and initializing")
+                with open('rate.json', 'w') as file:
+                    file.write("{\n    \n}")
+                print("attempting to clear rates again")
+                continue
+            except json.decoder.JSONDecodeError:
+                print("rate.json empty, initializing file")
+                with open("rate.json","w") as file:
+                    file.write("{\n    \n}")
+                print("attempting to clear rates again")
+                continue
             except Exception as e:
                 print(f"an error occured while trying to clear rates: {e}")
                 print("rates not cleared, rate limiting turned off")
