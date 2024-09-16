@@ -8,7 +8,7 @@ NOTE: Please have at least 2gb of free space for this. Having less is fine, but 
 ## For linux using apt
 run this command
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/4LL1NV41N/-/attempt-to-add-an-install-script/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/4LL1NV41N/-/install.sh)"
 ```
 after installation, it will prompt you for your token. after entering your discord token, the bot will automatically start. 
 
@@ -26,7 +26,7 @@ brew install python
 
 run the install script
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/4LL1NV41N/-/attempt-to-add-an-install-script/install-macos.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/4LL1NV41N/-/install-macos.sh)"
 ```
 # License
 
