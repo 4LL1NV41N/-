@@ -6,10 +6,11 @@ these instructions are only for this python code. to set up the bot, check [this
 NOTE: Please have at least 2gb of free space for this. Having less is fine, but may cause problems. 
 
 ## For linux using apt
-run these commands
+run this command
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/4LL1NV41N/-/attempt-to-add-an-install-script/install.sh)"
 ```
+after installation, it will prompt you for your token. after entering your discord token, the bot will automatically start. 
 
 ## For macos using [brew](brew.sh)
 if you do not have brew, run this:
