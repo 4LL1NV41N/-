@@ -8,8 +8,8 @@ print("loaded dotenv")
 print("bot starting... please hold on for a moment...")
 
 SECRET = "maestrefi"                                                                        # this is the secret phrase
-RESPONSE = os.getenv("SECRET")                                                                    # this is the clue that the bot will drop
-YAP = "Good job. Here is your clue for the next step: ```" + RESPONSE + "``` Good luck."    # thsi si the yap
+RESPONSE = "vYfj4iP2yuw"                                                                    # this is the clue that the bot will drop
+YAP = f"Good job. Here is your clue for the next step: ```{RESPONSE}``` Good luck."         # thsi si the yap
 __TOKEN = os.getenv("TOKEN")                                                                # dimini discord token
 ratelimiting = True
 clearingrates = True
