@@ -39,16 +39,24 @@ client = discord.Bot(intents=discord.Intents.all(),debug_guilds=[127379873370367
 
 
 # json handling
-def loadjson(filename, defaultval:dict={}) -> dict:
+def loadjson(filename, defaultval:dict={"default":0}) -> dict:
     try:
         with open(filename, "r") as file:
             return json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError) as e:
-        logger.warning(f"{filename} either does not exist or is not initialized.")
+    except FileNotFoundError:
+        logger.warning(f"{filename} does not exist")
         logger.info(f"initializing {filename}")
         with open(filename, "w") as file:
             json.dump(defaultval, file, indent=4)
-        return json.load(file)
+        with open(filename, "r") as file:
+            return json.load(file)
+    except json.decoder.JSONDecodeError:
+        logger.warning(f"{filename} does not have proper JSON")
+        logger.info(f"initializing {filename}")
+        with open(filename, "w") as file:
+            json.dump(defaultval, file, indent=4)
+        with open(filename, "r") as file:
+            return json.load(file)
     
 
 def savejson(filename, data):
@@ -78,7 +86,7 @@ async def clear_rate():
         if clearingrates:
             logger.info("Clearing rate limits.")
             data = loadjson("rate.json")
-            print(data)
+            logger.info(data)
             for key in data:
                 data[key] = 0
             savejson("rate.json", data)
