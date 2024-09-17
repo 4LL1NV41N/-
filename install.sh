@@ -26,7 +26,7 @@ pip3 install python-dotenv
 pip3 install datetime
 git clone http://github.com/4ll1nv41n/-/
 rm -rf runbot, runbot.sh
-echo "SESSION_NAME="argbot"" >> runbot
+echo "SESSION_NAME=\"argbot\"" >> runbot
 echo "tmux new-session -d -s $SESSION_NAME" >> runbot
 echo "tmux send-keys -t $SESSION_NAME 'python3 main.py' C-m" >> runbot
 echo "tmux attach -t $SESSION_NAME" >> runbot
