@@ -4,12 +4,25 @@ from dotenv import load_dotenv
 # made with love by natalie!! :3c
 
 # logging config
-logging.basicConfig(filename="log",level=logging.INFO,format="%(asctime)s - [%(levelname)s]: %(message)s")
+logging.basicConfig(filename="main.log",level=logging.INFO,format="%(asctime)s - [%(levelname)s]: %(message)s")
+logger = logging.getLogger("logs")
+logger.setLevel(logging.INFO)
+
+consolehandler = logging.StreamHandler()
+filehandler = logging.FileHandler("main.log")
+
+consolehandler.setLevel(logging.INFO)
+filehandler.setLevel(logging.INFO)
+
+formatter = logging.Formatter("%(asctime)s - [%(levelname)s]: %(message)s")
+
+consolehandler.setFormatter(formatter)
+filehandler.setFormatter(formatter)
 
 # loading token
 load_dotenv()
-logging.info("loaded dotenv")
-logging.info("bot starting... please hold on for a moment...")
+logger.info("loaded dotenv")
+logger.info("bot starting... please hold on for a moment...")
 __TOKEN = os.getenv("TOKEN")                                                                # dimini discord token
 
 # initializing variables
@@ -29,8 +42,8 @@ def loadjson(filename, defaultval="{\n    \n}"):
         with open(filename, "r") as file:
             return json.load(file)
     except (FileNotFoundError, json.JSONDecodeError) as e:
-        logging.warning(f"{filename} either does not exist or is not initialized.")
-        logging.info(f"initializing {filename}")
+        logger.warning(f"{filename} either does not exist or is not initialized.")
+        logger.info(f"initializing {filename}")
         with open(filename, "w") as file:
             json.dump(defaultval, file, indent=4)
         return json.load(file)
@@ -46,7 +59,7 @@ async def handle_secret(message):
     try:
         await message.delete()
     except Exception as e:
-        logging.error(f"Error deleting message: {e}")
+        logger.error(f"Error deleting message: {e}")
 
     winners = loadjson("win.json")
     
@@ -61,21 +74,21 @@ async def handle_secret(message):
 async def clear_rate():
     while True:
         if clearingrates:
-            logging.info("Clearing rate limits.")
+            logger.info("Clearing rate limits.")
             data = loadjson("rate.json")
             for key in data:
                 data[key] = 0
             savejson("rate.json", data)
-            logging.info("Rates cleared.")
+            logger.info("Rates cleared.")
         else:
-            logging.info("Rate clearing is turned off.")
+            logger.info("Rate clearing is turned off.")
         await asyncio.sleep(3600)
         
 
 # bot commands
 @client.command(name="dimini")
 async def dimini(ctx):
-    logging.info("sent <:dimini:1273803816357199873> lol")
+    logger.info("sent <:dimini:1273803816357199873> lol")
     await ctx.respond('<:dimini:1273803816357199873>')
     await ctx.respond(file=discord.File('DIMINI.mp4'))
 
@@ -134,8 +147,8 @@ async def disableclearrates(ctx):
 # discord events
 @client.event
 async def on_ready():
-    logging.info(f"Logged in as {client.user}")
-    logging.info("Bot is running!! Have fun!! :3")
+    logger.info(f"Logged in as {client.user}")
+    logger.info("Bot is running!! Have fun!! :3")
     client.loop.create_task(clear_rate())
     
 @client.event
@@ -147,15 +160,15 @@ async def on_message(message):
     data[user_id] = data.get(user_id, 0) + 1
     savejson("rate.json", data)
     if data[user_id] < 20 and ratelimiting:
-        logging.info(f'Message "{message.content}" sent by user {message.author}')
+        logger.info(f'Message "{message.content}" sent by user {message.author}')
         if message.content.lower().strip() == SECRET:
             await handle_secret(message)
         else:
-            logging.info("Incorrect guess.")
+            logger.info("Incorrect guess.")
     elif data[user_id] >= 20 and ratelimiting:
         await message.author.send("You are sending requests too quickly.")
     elif not ratelimiting:
-        logging.info("Rate limiting is off.")
+        logger.info("Rate limiting is off.")
 
 
 client.add_application_command(ratelimit)
