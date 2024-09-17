@@ -8,12 +8,12 @@ tmux has-session -t $SESSION_NAME 2>/dev/null
 if [ $? != 0 ]; then
     echo "Starting new session for the bot..."
     tmux new-session -d -s $SESSION_NAME
-    tmux send-keys -t $SESSION_NAME 'python3 ./main.py' C-m
+    tmux send-keys -t $SESSION_NAME 'python3 ./-/main.py' C-m
 else
     echo "Session already exists. Restarting bot..."
     tmux kill-session -t $SESSION_NAME
     tmux new-session -d -s $SESSION_NAME
-    tmux send-keys -t $SESSION_NAME 'python3 ./main.py' C-m
+    tmux send-keys -t $SESSION_NAME 'python3 ./-/main.py' C-m
 fi
 
 tmux attach -t $SESSION_NAME
