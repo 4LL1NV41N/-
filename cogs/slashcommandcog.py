@@ -1,4 +1,4 @@
-import discord
+import discord, jsonhandlers
 from discord.ext import commands
 
 class SlashCommandCog(commands.Cog):
@@ -28,10 +28,10 @@ class SlashCommandCog(commands.Cog):
     @clearrates.command(name="clear")
     async def clear(ctx):
         try:
-            data = loadjson("./rate.json")
+            data = jsonhandlers.loadjson("./rate.json")
             for key in data:
                 data[key] = 0
-            savejson("./rate.json", data)
+            jsonhandlers.savejson("./rate.json", data)
             await ctx.respond("rates cleared", ephemeral=True)
         except Exception as e:
             await ctx.respond(f"An error occurred while clearing rates: {e}", ephemeral=True)

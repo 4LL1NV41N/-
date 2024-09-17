@@ -1,8 +1,8 @@
-import logging, jsonhandlers
+import logging, jsonhandlers, genfuns
 
 logger = logging.getLogger("logs")
 
-async def on_message(client, message, limit, ratelimiting, __SECRET, YAP):
+async def messagehandler(client, message, limit, ratelimiting, __SECRET, YAP):
     if message.author == client.user:
         return
     logger.info(f'Message "{message.content}" sent by user {message.author}')
@@ -25,7 +25,7 @@ async def on_message(client, message, limit, ratelimiting, __SECRET, YAP):
     elif not ratelimiting:
         logger.info("Rate limiting is off.")
         
-async def on_ready(client):
+async def readyhandler(client, clearingrates):
     logger.info(f"Logged in as {client.user}")
     logger.info("Bot is running!! Have fun!! :3")
-    client.loop.create_task(main.clearrate())
+    client.loop.create_task(genfuns.clearrate(clearingrates))

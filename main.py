@@ -1,7 +1,8 @@
-import discord, os, asyncio, json, logging, importlib, jsonhandlers
+import discord, os, asyncio, logging, importlib, jsonhandlers
 from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
-from handlers import on_message as messagehandler, on_ready as readyhandler
+from handlers import messagehandler, readyhandler
+from genfuns import handlesecret, clearrate, is_mod
 
 # made with love by natalie!! :3c
 
@@ -55,34 +56,7 @@ if __name__ == '__main__':
             logger.info(f"Loaded extension {extension}")
         except Exception as e:
             logger.error(f"Failed to load extension {extension}: {e}")
-        
-        
-# async functions
-async def handlesecret(message):
-    try:
-        await message.delete()
-    except Exception as e:
-        logger.error(f"Error deleting message: {e}")
-    
-    await message.author.send(YAP)
 
-
-async def clearrate():
-    now = datetime.now(timezone.utc)
-    nexthour = now.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)
-    nexthoursecs = (nexthour - now).total_seconds()
-    while True:
-        await asyncio.sleep(nexthoursecs)
-        if clearingrates:
-            logger.info("Clearing rate limits.")
-            data = jsonhandlers.loadjson("./rate.json")
-            logger.info(data)
-            for key in data:
-                data[key] = 0
-            jsonhandlers.savejson("./rate.json", data)
-            logger.info("Rates cleared.")
-        else:
-            logger.info("Rate clearing is turned off.")
         
 @client.command(name="reload")
 @discord.commands.is_owner()
@@ -98,7 +72,7 @@ async def reload(ctx):
         logger.error(e)
 
 @client.command(name='reloadcog')
-@discord.commands.is_owner()
+@discord.app_commands.check(is_mod)
 async def reload_cog(ctx, cog: discord.Option(str, choices=cognames)):
     try:
         client.reload_extension(f'cogs.{cog}')
@@ -110,7 +84,7 @@ async def reload_cog(ctx, cog: discord.Option(str, choices=cognames)):
 # discord events
 @client.event
 async def on_ready():
-    await readyhandler(client)
+    await readyhandler(client, clearingrates)
     
 @client.event
 async def on_message(message):
