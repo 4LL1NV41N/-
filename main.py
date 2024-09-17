@@ -43,15 +43,15 @@ client = discord.Bot(intents=discord.Intents.all(),debug_guilds=[127379873370367
 os.chdir("../")
 
 # Loading cogs
-initial_extensions = [
-    'cogs.slashcommands',
-    'cogs.commands'
+cognames = [
+    'slashcommands',
+    'commands'
 ]
 
 if __name__ == '__main__':
-    for extension in initial_extensions:
+    for extension in cognames:
         try:
-            client.load_extension(extension)
+            client.load_extension(f"cogs.{extension}")
             logger.info(f"Loaded extension {extension}")
         except Exception as e:
             logger.error(f"Failed to load extension {extension}: {e}")
@@ -96,6 +96,15 @@ async def reload(ctx):
         await ctx.send(f"Error reloading: {e}")
         logger.error("event handlers could not be reloaded")
         logger.error(e)
+
+@client.command(name='reloadcog')
+@discord.commands.is_owner()
+async def reload_cog(ctx, cog: discord.Option(str, choices=cognames)):
+    try:
+        client.reload_extension(f'cogs.{cog}')
+        await ctx.send(f"Reloaded {cog} cog.")
+    except Exception as e:
+        await ctx.send(f"Failed to reload {cog} cog: {e}")
 
 
 # discord events
