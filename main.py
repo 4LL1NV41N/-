@@ -70,15 +70,8 @@ async def handle_secret(message):
         await message.delete()
     except Exception as e:
         logger.error(f"Error deleting message: {e}")
-
-    winners = loadjson("win.json")
     
-    if str(message.author.id) in winners:
-        await message.author.send("You already got the clue.")
-    else:
-        await message.author.send(YAP)
-        winners[str(message.author.id)] = 1
-        savejson("win.json", winners)
+    await message.author.send(YAP)
 
 
 async def clear_rate():
