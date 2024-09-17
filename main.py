@@ -35,6 +35,7 @@ RESPONSE = "vYfj4iP2yuw"                                                        
 YAP = f"Good job. Here is your clue for the next step: ```{RESPONSE}``` Good luck."         # thsi si the yap
 ratelimiting = True
 clearingrates = True
+limit = 40
 
 # starting bot
 client = discord.Bot(intents=discord.Intents.all(),debug_guilds=[1273798733703675976])
@@ -176,13 +177,13 @@ async def on_message(message):
     user_id = str(message.author.id)
     data[user_id] = data.get(user_id, 0) + 1
     savejson("rate.json", data)
-    if data[user_id] < 20 and ratelimiting:
+    if data[user_id] < limit and ratelimiting:
         logger.info(f'Message "{message.content}" sent by user {message.author}')
         if message.content.lower().strip() == __SECRET:
             await handlesecret(message)
         else:
             logger.info("Incorrect guess.")
-    elif data[user_id] >= 20 and ratelimiting:
+    elif data[user_id] >= limit and ratelimiting:
         await message.author.send("You are sending requests too quickly.")
     elif not ratelimiting:
         logger.info("Rate limiting is off.")
