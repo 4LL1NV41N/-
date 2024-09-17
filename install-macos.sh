@@ -6,6 +6,7 @@ echo "You may be prompted when the script is installing dependancies. Please ans
 echo "Press ENTER to continue with installation"
 read
 
+brew doctor
 rm -rf ./-/
 python3 -m ensurepip
 python3 -m pip config set global.break-system-packages true
