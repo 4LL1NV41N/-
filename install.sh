@@ -25,8 +25,14 @@ pip3 install py-cord
 pip3 install python-dotenv
 pip3 install datetime
 git clone http://github.com/4ll1nv41n/-/
+echo "SESSION_NAME="argbot"" >> runbot.sh
+echo "tmux new-session -d -s $SESSION_NAME" >> runbot.sh
+echo "tmux send-keys -t $SESSION_NAME 'python3 main.py' C-m" >> runbot.sh
+echo "tmux attach -t $SESSION_NAME" >> runbot.sh
+chmod +x runbot.sh
 cd ./-/
 touch rate.json
+echo ""
 
 echo ""
 echo ""
@@ -34,25 +40,23 @@ echo "To change your secret, enter something below. To set it to default, press 
 DEFAULTSECRET="maestrefi"
 read -p "> " NEWSECRET
 if [ -z "$NEWSECRET" ]; then
-    $DEFAULTSECRET = $NEWSECRET
+    NEWSECRET="$DEFAULTSECRET"
 fi
-echo "SECRET = $DEFAULTSECRET" >> ../.env
+echo "SECRET=$NEWSECRET" > ../.env
 echo ""
 echo ""
 echo "Enter your discord bot token. This data will not be shared.\n"
 echo "If you do not know what that is, refer to this guide: https://guide.pycord.dev/getting-started/creating-your-first-bot\n"
 echo "If you do not want to ender your token now, press control c below.\n"
 echo "Your token will be stored in ./.env, in the format 'TOKEN = YOUR_TOKEN_HERE'. You can change it if you reset your token.\n"
-while true; do
-    read -p "> " USER_DISCORD_TOKEN
-    echo "TOKEN = $USER_DISCORD_TOKEN" >> ../.env
+read -p "> " USER_DISCORD_TOKEN
+echo "TOKEN = $USER_DISCORD_TOKEN" >> ../.env
 
-    if start_bot(); then
-        echo "Bot started successfully"
-        break
-    else
-        echo "Token incorrect"
-        echo ""
-    fi
-done
+if start_bot(); then
+    echo "Bot started successfully"
+    break
+else
+    echo "Token incorrect"
+    echo ""
+fi
 
