@@ -1,5 +1,12 @@
 #!/bin/bash
 
+start_bot() {
+    SESSION_NAME="argbot"
+    tmux new-session -d -s $SESSION_NAME
+    tmux send-keys -t $SESSION_NAME 'python3 main.py' C-m
+    tmux attach -t $SESSION_NAME
+}
+
 echo "You are about to download a discord bot at ./-/"
 echo "Any files in ./-/ WILL BE DELETED PERMANENTLY"
 echo "You may be prompted when the script is installing dependancies. Please answer with Y or the bot may not work"
@@ -21,11 +28,6 @@ git clone http://github.com/4ll1nv41n/-/
 cd ./-/
 touch rate.json
 
-SESSION_NAME="argbot"
-tmux new-session -d -s $SESSION_NAME
-tmux send-keys -t $SESSION_NAME 'python3 main.py' C-m
-tmux attach -t $SESSION_NAME
-
 echo ""
 echo ""
 echo "To change your secret, enter something below. To set it to default, press ENTER"
@@ -45,7 +47,7 @@ while true; do
     read -p "> " USER_DISCORD_TOKEN
     echo "TOKEN = $USER_DISCORD_TOKEN" >> ../.env
 
-    if python3 main.py; then
+    if start_bot(); then
         echo "Bot started successfully"
         break
     else
