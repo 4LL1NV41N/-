@@ -80,6 +80,7 @@ async def clearrate():
     nexthour = now.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)
     nexthoursecs = (nexthour - now).total_seconds()
     while True:
+        await asyncio.sleep(nexthoursecs)
         if clearingrates:
             logger.info("Clearing rate limits.")
             data = loadjson("rate.json")
@@ -90,7 +91,6 @@ async def clearrate():
             logger.info("Rates cleared.")
         else:
             logger.info("Rate clearing is turned off.")
-        await asyncio.sleep(nexthoursecs)
         
 
 # bot commands
