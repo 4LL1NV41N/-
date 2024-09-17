@@ -104,7 +104,16 @@ async def dimini(ctx):
 @client.command(name="say")
 async def say(ctx, *, message: str):
     await ctx.respond(message)
+    
 
+@client.command(name="skibidinig")
+async def skibidinig(ctx, *, userid):
+    try:
+        uid = int(userid)
+        user = await client.fetch_user(uid)
+        await user.send("71 sigma skibidinig slicers!")
+    except:
+        ctx.respond("noh sigma")
 
 # rate limit command group
 ratelimit = discord.SlashCommandGroup("ratelimit", "enable or disable rate limiting")
