@@ -14,7 +14,7 @@ echo "Please allow everything."
 echo "Press ENTER to continue with installation"
 read
 
-rm -rf ./-/
+sudo rm -rf ./-/
 sudo apt update
 sudo apt upgrade
 sudo apt install tmux
