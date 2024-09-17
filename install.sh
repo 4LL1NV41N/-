@@ -26,9 +26,9 @@ pip3 install py-cord
 pip3 install python-dotenv
 pip3 install datetime
 git clone http://github.com/4ll1nv41n/-/
-cd ./-/
-chmod +x ./runbot
-chmod +x changetoken
+chmod +x ./-/runbot
+chmod +x ./-/changetoken
+sudo mv ./-/runbot ./runbot
 
 echo ""
 echo ""
@@ -39,7 +39,7 @@ read -p "> " NEWSECRET
 if [ -z "$NEWSECRET" ]; then
     NEWSECRET="$DEFAULTSECRET"
 fi
-echo "SECRET=$NEWSECRET" > ../.env
+echo "SECRET=$NEWSECRET" > ./.env
 
 echo ""
 echo ""
@@ -49,6 +49,6 @@ echo "If you do not know what that is, refer to this guide: https://guide.pycord
 echo -e "If you do not want to ender your token now, press \033[1mctrl+c\033[0m below.\n"
 echo "Your token will be stored in ./.env, in the format 'TOKEN = YOUR_TOKEN_HERE'. You can change it if you reset your token.\n"
 read -p "> " USER_DISCORD_TOKEN
-echo "TOKEN = $USER_DISCORD_TOKEN" >> ../.env
+echo "TOKEN = $USER_DISCORD_TOKEN" >> ./.env
 echo -e "type \033[1mrunbot\033[0m to run the bot"
 echo -e "if you input the incorrect token, run \033[1mchangetoken CORRECT_TOKEN\033[0m to change it"
