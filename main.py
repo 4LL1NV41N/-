@@ -39,7 +39,7 @@ client = discord.Bot(intents=discord.Intents.all(),debug_guilds=[127379873370367
 
 
 # json handling
-def loadjson(filename, defaultval="{\n    \n}") -> dict:
+def loadjson(filename, defaultval:dict={}) -> dict:
     try:
         with open(filename, "r") as file:
             return json.load(file)
