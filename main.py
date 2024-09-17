@@ -9,6 +9,7 @@ versionnum = 2
 '''
 TODO: make cog loading and reloading in a cog
 TODO: organize file names because wtf is this????
+TODO: edit install.sh so that its instructions make more sense
 '''
 
 
