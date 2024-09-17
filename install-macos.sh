@@ -3,8 +3,16 @@
 echo "You are about to download a discord bot at ./-/"
 echo "Any files in ./-/ WILL BE DELETED PERMANENTLY"
 echo "You may be prompted when the script is installing dependancies. Please answer with Y or the bot may not work"
-echo "Press ENTER to continue with installation"
-read
+echo -ne "Press \033[1mENTER\033[0m to continue or any other key to abort: "
+read -r -n1 key
+if [[ $key == "" ]]; then
+    echo "Continuing..."
+    # Place your continuation code here
+else
+    echo "Aborting..."
+    exit 1
+fi
+echo "Installation starting"
 
 brew doctor
 rm -rf ./-/
