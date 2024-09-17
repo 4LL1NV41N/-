@@ -1,6 +1,4 @@
-import logging, main
-from datetime import datetime, timedelta, timezone
-from dotenv import load_dotenv
+import logging, jsonhandlers
 
 logger = logging.getLogger("logs")
 
@@ -8,10 +6,10 @@ async def on_message(client, message, limit, ratelimiting, __SECRET, YAP):
     if message.author == client.user:
         return
     logger.info(f'Message "{message.content}" sent by user {message.author}')
-    data = main.loadjson("./rate.json")
+    data = jsonhandlers.loadjson("./rate.json")
     user_id = str(message.author.id)
     data[user_id] = data.get(user_id, 0) + 1
-    main.savejson("./rate.json", data)
+    jsonhandlers.savejson("./rate.json", data)
     if data[user_id] < limit and ratelimiting:
         if message.content.lower().strip() == __SECRET:
             try:
