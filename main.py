@@ -18,6 +18,9 @@ formatter = logging.Formatter("%(asctime)s - [%(levelname)s]: %(message)s")
 consolehandler.setFormatter(formatter)
 filehandler.setFormatter(formatter)
 
+logger.addHandler(consolehandler)
+logger.addHandler(filehandler)
+
 # loading token
 load_dotenv()
 logger.info("loaded dotenv")
