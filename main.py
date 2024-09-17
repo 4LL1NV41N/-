@@ -59,7 +59,7 @@ if __name__ == '__main__':
 
         
 @client.command(name="reload")
-@discord.commands.is_owner()
+@discord.app_commands.check(is_mod)
 async def reload(ctx):
     try:
         importlib.reload(messagehandler)
