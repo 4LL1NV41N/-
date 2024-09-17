@@ -25,7 +25,8 @@ async def messagehandler(client, message, limit, ratelimiting, __SECRET, YAP):
     elif not ratelimiting:
         logger.info("Rate limiting is off.")
         
-async def readyhandler(client, clearingrates):
+async def readyhandler(client, clearingrates, versionnum):
+    logger.info(f"Version {versionnum}")
     logger.info(f"Logged in as {client.user}")
     logger.info("Bot is running!! Have fun!! :3")
     client.loop.create_task(genfuns.clearrate(clearingrates))

@@ -6,6 +6,8 @@ from genfuns import handlesecret, clearrate, is_mod
 
 # made with love by natalie!! :3c
 
+versionnum = 2
+
 # logging config
 logger = logging.getLogger("logs")
 logger.setLevel(logging.INFO)
@@ -84,7 +86,7 @@ async def reload_cog(ctx, cog: discord.Option(str, choices=cognames)):
 # discord events
 @client.event
 async def on_ready():
-    await readyhandler(client, clearingrates)
+    await readyhandler(client, clearingrates, versionnum)
     
 @client.event
 async def on_message(message):
