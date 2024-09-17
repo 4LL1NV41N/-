@@ -1,4 +1,5 @@
 import discord, os, asyncio, json, logging
+from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 
 # made with love by natalie!! :3c
@@ -65,7 +66,7 @@ def savejson(filename, data):
         
         
 # async functions
-async def handle_secret(message):
+async def handlesecret(message):
     try:
         await message.delete()
     except Exception as e:
@@ -74,7 +75,10 @@ async def handle_secret(message):
     await message.author.send(YAP)
 
 
-async def clear_rate():
+async def clearrate():
+    now = datetime.now(timezone.utc)
+    nexthour = now.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)
+    nexthoursecs = (nexthour - now).total_seconds()
     while True:
         if clearingrates:
             logger.info("Clearing rate limits.")
@@ -86,7 +90,7 @@ async def clear_rate():
             logger.info("Rates cleared.")
         else:
             logger.info("Rate clearing is turned off.")
-        await asyncio.sleep(3600)
+        await asyncio.sleep(nexthoursecs)
         
 
 # bot commands
@@ -153,7 +157,7 @@ async def disableclearrates(ctx):
 async def on_ready():
     logger.info(f"Logged in as {client.user}")
     logger.info("Bot is running!! Have fun!! :3")
-    client.loop.create_task(clear_rate())
+    client.loop.create_task(clearrate())
     
 @client.event
 async def on_message(message):
@@ -166,7 +170,7 @@ async def on_message(message):
     if data[user_id] < 20 and ratelimiting:
         logger.info(f'Message "{message.content}" sent by user {message.author}')
         if message.content.lower().strip() == SECRET:
-            await handle_secret(message)
+            await handlesecret(message)
         else:
             logger.info("Incorrect guess.")
     elif data[user_id] >= 20 and ratelimiting:
