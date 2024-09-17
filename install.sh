@@ -29,10 +29,10 @@ tmux attach -t $SESSION_NAME
 echo ""
 echo ""
 echo "To change your secret, enter something below. To set it to default, press ENTER"
-DEFAULTSECRET = "maestrefi"
+DEFAULTSECRET="maestrefi"
 read -p "> " NEWSECRET
 if [ -z "$NEWSECRET" ]; then
-    DEFAULTSECRET = $NEWSECRET
+    $DEFAULTSECRET = $NEWSECRET
 fi
 echo "SECRET = $DEFAULTSECRET" >> ../.env
 echo ""
