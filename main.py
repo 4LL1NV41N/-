@@ -23,13 +23,14 @@ logger.addHandler(consolehandler)
 logger.addHandler(filehandler)
 
 # loading token
-load_dotenv()
+envpath = '../.env' if os.path.isfile('../.env') else './.env'
+load_dotenv(envpath)
 logger.info("loaded dotenv")
 logger.info("bot starting... please hold on for a moment...")
 __TOKEN = os.getenv("TOKEN")                                                                # dimini discord token
+__SECRET = os.getenv("SECRET")                                                                # this is the secret phrase
 
 # initializing variables
-SECRET = os.getenv("SECRET")                                                                # this is the secret phrase
 RESPONSE = "vYfj4iP2yuw"                                                                    # this is the clue that the bot will drop
 YAP = f"Good job. Here is your clue for the next step: ```{RESPONSE}``` Good luck."         # thsi si the yap
 ratelimiting = True
@@ -37,7 +38,6 @@ clearingrates = True
 
 # starting bot
 client = discord.Bot(intents=discord.Intents.all(),debug_guilds=[1273798733703675976])
-
 
 # json handling
 def loadjson(filename, defaultval:dict={"default":0}) -> dict:
@@ -169,7 +169,7 @@ async def on_message(message):
     savejson("rate.json", data)
     if data[user_id] < 20 and ratelimiting:
         logger.info(f'Message "{message.content}" sent by user {message.author}')
-        if message.content.lower().strip() == SECRET:
+        if message.content.lower().strip() == __SECRET:
             await handlesecret(message)
         else:
             logger.info("Incorrect guess.")
