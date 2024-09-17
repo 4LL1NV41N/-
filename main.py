@@ -45,8 +45,8 @@ os.chdir("../")
 
 # Loading cogs
 cognames = [
-    'slashcommands',
-    'commands'
+    'slashcommandcog',
+    'commandcog'
 ]
 
 if __name__ == '__main__':
