@@ -6,6 +6,12 @@ from handlers import messagehandler, readyhandler
 
 versionnum = 2
 
+'''
+TODO: make cog loading and reloading in a cog
+TODO: organize file names because wtf is this????
+'''
+
+
 # logging config
 logger = logging.getLogger("logs")
 logger.setLevel(logging.INFO)
