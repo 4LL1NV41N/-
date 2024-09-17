@@ -2,10 +2,10 @@
 
 
 if [[ -n "$TMUX" ]]; then
-    python3 ./-/main.py
+    sudo python3 ./-/main.py
 else
     SESSION_NAME="argbot"
     tmux new-session -d -s $SESSION_NAME
-    tmux send-keys -t $SESSION_NAME 'python3 ./-/main.py' C-m
+    tmux send-keys -t $SESSION_NAME 'sudo python3 ./-/main.py' C-m
     tmux attach -t $SESSION_NAME
 fi
