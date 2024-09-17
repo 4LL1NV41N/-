@@ -1,7 +1,12 @@
 #!/bin/bash
 
-rm -rf ./-/
+echo "You are about to download a discord bot at ./-/"
+echo "Any files in ./-/ WILL BE DELETED PERMANENTLY"
+echo "You may be prompted when the script is installing dependancies. Please answer with Y or the bot may not work"
+echo "Press ENTER to continue with installation"
+read
 
+rm -rf ./-/
 sudo apt update
 sudo apt upgrade
 sudo apt install tmux
