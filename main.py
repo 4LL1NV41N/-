@@ -36,7 +36,7 @@ client = discord.Bot(intents=discord.Intents.all(),debug_guilds=[127379873370367
 
 
 # json handling
-def loadjson(filename, defaultval="{\n    \n}"):
+def loadjson(filename, defaultval="{\n    \n}") -> dict:
     try:
         with open(filename, "r") as file:
             return json.load(file)
@@ -75,6 +75,7 @@ async def clear_rate():
         if clearingrates:
             logger.info("Clearing rate limits.")
             data = loadjson("rate.json")
+            print(data)
             for key in data:
                 data[key] = 0
             savejson("rate.json", data)
