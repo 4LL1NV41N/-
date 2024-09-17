@@ -1,9 +1,9 @@
 if [ $# -eq 0 ]; then
   echo "No arguments provided."
   exit 0
-else if [ $# -gt 1 ]; then
+elif [ $# -gt 1 ]; then
   echo "More than one argument provided."
   echo "Using $1 as token"
 fi
 
-sed -i '' 's/^TOKEN = .*/TOKEN = $1/' filename
+sed -i '' "s/^TOKEN = .*/TOKEN = $1/" filename
