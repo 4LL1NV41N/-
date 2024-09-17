@@ -28,7 +28,7 @@ logger.info("bot starting... please hold on for a moment...")
 __TOKEN = os.getenv("TOKEN")                                                                # dimini discord token
 
 # initializing variables
-SECRET = "maestrefi"                                                                        # this is the secret phrase
+SECRET = os.getenv("SECRET")                                                                # this is the secret phrase
 RESPONSE = "vYfj4iP2yuw"                                                                    # this is the clue that the bot will drop
 YAP = f"Good job. Here is your clue for the next step: ```{RESPONSE}``` Good luck."         # thsi si the yap
 ratelimiting = True
@@ -73,11 +73,11 @@ async def handle_secret(message):
 
     winners = loadjson("win.json")
     
-    if message.author.id in winners:
+    if str(message.author.id) in winners:
         await message.author.send("You already got the clue.")
     else:
         await message.author.send(YAP)
-        winners[message.author.id] = 1
+        winners[str(message.author.id)] = 1
         savejson("win.json", winners)
 
 

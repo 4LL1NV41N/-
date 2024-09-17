@@ -1,0 +1,35 @@
+2024-09-17 12:00:50,149 - [INFO]: loaded dotenv
+2024-09-17 12:00:50,149 - [INFO]: bot starting... please hold on for a moment...
+2024-09-17 12:00:53,374 - [INFO]: Logged in as z_#2304
+2024-09-17 12:00:53,375 - [INFO]: Bot is running!! Have fun!! :3
+2024-09-17 12:00:53,375 - [INFO]: Clearing rate limits.
+2024-09-17 12:00:53,377 - [INFO]: {'default': 0}
+2024-09-17 12:00:53,378 - [INFO]: Rates cleared.
+2024-09-17 14:05:15,845 - [INFO]: Logged in as z_#2304
+2024-09-17 14:05:15,848 - [INFO]: Bot is running!! Have fun!! :3
+2024-09-17 14:05:15,848 - [INFO]: Clearing rate limits.
+2024-09-17 14:05:15,849 - [INFO]: {'default': 0}
+2024-09-17 14:05:15,850 - [INFO]: Rates cleared.
+2024-09-17 15:03:41,989 - [INFO]: Message "maestrefi" sent by user fxg4 (nat)
+2024-09-17 15:03:42,824 - [ERROR]: Error deleting message: 403 Forbidden (error code: 50003): Cannot execute action on a DM channel
+2024-09-17 15:03:42,825 - [WARNING]: win.json does not exist
+2024-09-17 15:03:42,825 - [INFO]: initializing win.json
+2024-09-17 15:03:43,167 - [INFO]: Logged in as z_#2304
+2024-09-17 15:03:43,167 - [INFO]: Bot is running!! Have fun!! :3
+2024-09-17 15:03:43,167 - [INFO]: Clearing rate limits.
+2024-09-17 15:03:43,167 - [INFO]: {'default': 0, '973943523655164032': 1}
+2024-09-17 15:03:43,168 - [INFO]: Rates cleared.
+2024-09-17 15:03:46,330 - [INFO]: Message "nig" sent by user fxg4 (nat)
+2024-09-17 15:03:46,330 - [INFO]: Incorrect guess.
+2024-09-17 15:03:47,226 - [INFO]: Message "nig" sent by user fxg4 (nat)
+2024-09-17 15:03:47,226 - [INFO]: Incorrect guess.
+2024-09-17 15:03:47,748 - [INFO]: Message "nig" sent by user fxg4 (nat)
+2024-09-17 15:03:47,749 - [INFO]: Incorrect guess.
+2024-09-17 15:04:41,290 - [INFO]: Message "maestrefi" sent by user fxg4 (nat)
+2024-09-17 15:04:41,817 - [ERROR]: Error deleting message: 403 Forbidden (error code: 50003): Cannot execute action on a DM channel
+2024-09-17 15:04:42,405 - [INFO]: Message "maestrefi" sent by user fxg4 (nat)
+2024-09-17 15:04:42,843 - [ERROR]: Error deleting message: 403 Forbidden (error code: 50003): Cannot execute action on a DM channel
+2024-09-17 15:04:44,398 - [INFO]: Message "aesterfi" sent by user fxg4 (nat)
+2024-09-17 15:04:44,398 - [INFO]: Incorrect guess.
+2024-09-17 15:04:48,279 - [INFO]: Message "SIFMA" sent by user fxg4 (nat)
+2024-09-17 15:04:48,279 - [INFO]: Incorrect guess.
