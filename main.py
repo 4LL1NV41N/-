@@ -181,7 +181,12 @@ async def on_message(message):
     savejson("./rate.json", data)
     if data[user_id] < limit and ratelimiting:
         if message.content.lower().strip() == __SECRET:
-            await handlesecret(message)
+            try:
+                await message.delete()
+            except Exception as e:
+                logger.error(f"Error deleting message: {e}")
+            await message.author.send(YAP)
+            logger.info("clue given")
         else:
             logger.info("Incorrect guess.")
     elif data[user_id] >= limit and ratelimiting:
