@@ -41,28 +41,28 @@ limit = 40
 client = discord.Bot(intents=discord.Intents.all(),debug_guilds=[1273798733703675976])
 
 # json handling
-def loadjson(filename, defaultval:dict={"default":0}) -> dict:
+def loadjson(filepath, defaultval:dict={"default":0}) -> dict:
     try:
-        with open(filename, "r") as file:
+        with open(filepath, "r") as file:
             return json.load(file)
     except FileNotFoundError:
-        logger.warning(f"{filename} does not exist")
-        logger.info(f"initializing {filename}")
-        with open(filename, "w") as file:
+        logger.warning(f"{filepath} does not exist")
+        logger.info(f"initializing {filepath}")
+        with open(filepath, "w") as file:
             json.dump(defaultval, file, indent=4)
-        with open(filename, "r") as file:
+        with open(filepath, "r") as file:
             return json.load(file)
     except json.decoder.JSONDecodeError:
-        logger.warning(f"{filename} does not have proper JSON")
-        logger.info(f"initializing {filename}")
-        with open(filename, "w") as file:
+        logger.warning(f"{filepath} does not have proper JSON")
+        logger.info(f"initializing {filepath}")
+        with open(filepath, "w") as file:
             json.dump(defaultval, file, indent=4)
-        with open(filename, "r") as file:
+        with open(filepath, "r") as file:
             return json.load(file)
     
 
-def savejson(filename, data):
-    with open(filename, "w") as file:
+def savejson(filepath, data):
+    with open(filepath, "w") as file:
         json.dump(data, file, indent=4)
         
         
@@ -84,11 +84,11 @@ async def clearrate():
         await asyncio.sleep(nexthoursecs)
         if clearingrates:
             logger.info("Clearing rate limits.")
-            data = loadjson("rate.json")
+            data = loadjson("../rate.json")
             logger.info(data)
             for key in data:
                 data[key] = 0
-            savejson("rate.json", data)
+            savejson("../rate.json", data)
             logger.info("Rates cleared.")
         else:
             logger.info("Rate clearing is turned off.")
@@ -139,10 +139,10 @@ clearrates = discord.SlashCommandGroup("clearrates", "enable or disable rate cle
 @clearrates.command(name="clear")
 async def clear(ctx):
     try:
-        data = loadjson("rate.json")
+        data = loadjson("../rate.json")
         for key in data:
             data[key] = 0
-        savejson("rate.json", data)
+        savejson("../rate.json", data)
         await ctx.respond("rates cleared", ephemeral=True)
     except Exception as e:
         await ctx.respond(f"An error occurred while clearing rates: {e}", ephemeral=True)
@@ -173,10 +173,10 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
-    data = loadjson("rate.json")
+    data = loadjson("../rate.json")
     user_id = str(message.author.id)
     data[user_id] = data.get(user_id, 0) + 1
-    savejson("rate.json", data)
+    savejson("../rate.json", data)
     if data[user_id] < limit and ratelimiting:
         logger.info(f'Message "{message.content}" sent by user {message.author}')
         if message.content.lower().strip() == __SECRET:
