@@ -39,7 +39,7 @@ read -p "> " NEWSECRET
 if [ -z "$NEWSECRET" ]; then
     NEWSECRET="$DEFAULTSECRET"
 fi
-echo "SECRET=$NEWSECRET" > ./.env
+echo "SECRET = $NEWSECRET" > ./.env
 
 echo ""
 echo ""
