@@ -1,3 +1,5 @@
+CURRDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 if [ $# -eq 0 ]; then
   echo "No arguments provided."
   exit 0
@@ -6,4 +8,4 @@ elif [ $# -gt 1 ]; then
   echo "Using $1 as token"
 fi
 
-sed -i "s/^TOKEN = .*/TOKEN = $1/" ../.env
+sed -i "s/^TOKEN = .*/TOKEN = $1/" "$CURRDIR/../.env"
