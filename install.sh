@@ -26,11 +26,10 @@ pip3 install py-cord
 pip3 install python-dotenv
 pip3 install datetime
 git clone http://github.com/4ll1nv41n/-/
-chmod +x runbot
-sudo mv ./runbot ../runbot
 cd ./-/
+chmod +x runbot
 chmod +x changetoken
-touch rate.json
+sudo mv ./runbot ../runbot
 
 echo ""
 echo ""
