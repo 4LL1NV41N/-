@@ -14,7 +14,8 @@ else
 fi
 echo "Installation starting"
 
-brew doctor
+brew install git
+brew install python
 rm -rf ./-/
 python3 -m ensurepip
 python3 -m pip config set global.break-system-packages true
