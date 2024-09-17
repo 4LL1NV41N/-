@@ -27,9 +27,8 @@ pip3 install python-dotenv
 pip3 install datetime
 git clone http://github.com/4ll1nv41n/-/
 cd ./-/
-chmod +x runbot
+chmod +x ./runbot
 chmod +x changetoken
-sudo mv ./runbot ../runbot
 
 echo ""
 echo ""
