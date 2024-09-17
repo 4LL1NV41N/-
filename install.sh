@@ -32,6 +32,7 @@ echo "tmux send-keys -t $SESSION_NAME 'python3 main.py' C-m" >> runbot
 echo "tmux attach -t $SESSION_NAME" >> runbot
 chmod +x runbot.sh
 cd ./-/
+chmod +x changetoken
 touch rate.json
 echo ""
 
