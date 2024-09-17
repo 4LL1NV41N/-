@@ -26,9 +26,9 @@ sudo python3 -m pip config set global.break-system-packages true
 sudo pip3 install py-cord
 sudo pip3 install python-dotenv
 sudo pip3 install datetime
-sudo git clone http://github.com/4ll1nv41n/-/
-sudo chmod +x ./-/startbot
-sudo chmod +x ./-/changetoken
+git clone http://github.com/4ll1nv41n/-/
+chmod +x ./-/startbot
+chmod +x ./-/changetoken
 sudo mv ./-/startbot ./startbot
 
 echo ""
