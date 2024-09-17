@@ -45,7 +45,7 @@ echo "SECRET = $NEWSECRET" > ./.env
 echo ""
 echo ""
 
-echo "installer v2"
+echo "installer v2.2"
 echo "Enter your discord bot token. This data will not be shared.\n"
 echo "If you do not know what that is, refer to this guide: https://guide.pycord.dev/getting-started/creating-your-first-bot\n"
 echo -e "If you do not want to ender your token now, press \033[1mctrl+c\033[0m below.\n"
