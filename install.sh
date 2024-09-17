@@ -15,6 +15,7 @@ echo "Press ENTER to continue with installation"
 read
 
 sudo rm -rf ./-/
+sudo rm -rf ./runbot
 sudo apt update
 sudo apt upgrade
 sudo apt install tmux
