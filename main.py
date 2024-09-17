@@ -1,8 +1,6 @@
-import discord, os, asyncio, logging, importlib, jsonhandlers
-from datetime import datetime, timedelta, timezone
+import discord, os,  logging, importlib
 from dotenv import load_dotenv
 from handlers import messagehandler, readyhandler
-from genfuns import handlesecret, clearrate, is_mod
 
 # made with love by natalie!! :3c
 
@@ -61,7 +59,6 @@ if __name__ == '__main__':
 
         
 @client.command(name="reload")
-@discord.app_commands.check(is_mod)
 async def reload(ctx):
     try:
         importlib.reload(messagehandler)
@@ -74,7 +71,6 @@ async def reload(ctx):
         logger.error(e)
 
 @client.command(name='reloadcog')
-@discord.app_commands.check(is_mod)
 async def reload_cog(ctx, cog: discord.Option(str, choices=cognames)):
     try:
         client.reload_extension(f'cogs.{cog}')
