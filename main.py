@@ -1,6 +1,7 @@
-import discord, os, asyncio, json, logging
+import discord, os, asyncio, json, logging, importlib, jsonhandlers
 from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
+from handlers import on_message as messagehandler, on_ready as readyhandler
 
 # made with love by natalie!! :3c
 
@@ -9,7 +10,7 @@ logger = logging.getLogger("logs")
 logger.setLevel(logging.INFO)
 
 consolehandler = logging.StreamHandler()
-filehandler = logging.FileHandler("main.log")
+filehandler = logging.FileHandler("./-/main.log")
 
 consolehandler.setLevel(logging.INFO)
 filehandler.setLevel(logging.INFO)
@@ -27,7 +28,7 @@ envpath = '../.env' if os.path.isfile('../.env') else './.env'
 load_dotenv(envpath)
 logger.info("loaded dotenv")
 logger.info("bot starting... please hold on for a moment...")
-__TOKEN = os.getenv("TOKEN")                                                                # dimini discord token
+__TOKEN = os.getenv("TOKEN")                                                                  # dimini discord token
 __SECRET = os.getenv("SECRET")                                                                # this is the secret phrase
 
 # initializing variables
@@ -41,30 +42,19 @@ limit = 40
 client = discord.Bot(intents=discord.Intents.all(),debug_guilds=[1273798733703675976])
 os.chdir("../")
 
-# json handling
-def loadjson(filepath, defaultval:dict={"default":0}) -> dict:
-    try:
-        with open(filepath, "r") as file:
-            return json.load(file)
-    except FileNotFoundError:
-        logger.warning(f"{filepath} does not exist")
-        logger.info(f"initializing {filepath}")
-        with open(filepath, "w") as file:
-            json.dump(defaultval, file, indent=4)
-        with open(filepath, "r") as file:
-            return json.load(file)
-    except json.decoder.JSONDecodeError:
-        logger.warning(f"{filepath} does not have proper JSON")
-        logger.info(f"initializing {filepath}")
-        with open(filepath, "w") as file:
-            json.dump(defaultval, file, indent=4)
-        with open(filepath, "r") as file:
-            return json.load(file)
-    
+# Loading cogs
+initial_extensions = [
+    'cogs.slashcommands',
+    'cogs.commands'
+]
 
-def savejson(filepath, data):
-    with open(filepath, "w") as file:
-        json.dump(data, file, indent=4)
+if __name__ == '__main__':
+    for extension in initial_extensions:
+        try:
+            client.load_extension(extension)
+            logger.info(f"Loaded extension {extension}")
+        except Exception as e:
+            logger.error(f"Failed to load extension {extension}: {e}")
         
         
 # async functions
@@ -85,118 +75,39 @@ async def clearrate():
         await asyncio.sleep(nexthoursecs)
         if clearingrates:
             logger.info("Clearing rate limits.")
-            data = loadjson("./rate.json")
+            data = jsonhandlers.loadjson("./rate.json")
             logger.info(data)
             for key in data:
                 data[key] = 0
-            savejson("./rate.json", data)
+            jsonhandlers.savejson("./rate.json", data)
             logger.info("Rates cleared.")
         else:
             logger.info("Rate clearing is turned off.")
         
-
-# bot commands
-@client.command(name="dimini")
-async def dimini(ctx):
-    logger.info("sent <:dimini:1273803816357199873> lol")
-    await ctx.respond('<:dimini:1273803816357199873>')
-    await ctx.respond(file=discord.File('DIMINI.mp4'))
-
-
-@client.command(name="say")
-async def say(ctx, *, message: str):
-    await ctx.respond(message)
-    
-
-@client.command(name="skibidinig")
-async def skibidinig(ctx, *, userid):
+@client.command(name="reload")
+@discord.commands.is_owner()
+async def reload(ctx):
     try:
-        uid = int(userid)
-        user = await client.fetch_user(uid)
-        await user.send("71 sigma skibidinig slicers!")
-    except:
-        ctx.respond("noh sigma")
-
-# rate limit command group
-ratelimit = discord.SlashCommandGroup("ratelimit", "enable or disable rate limiting")
-
-@ratelimit.command(name="enable")
-async def ratelimitenable(ctx):
-    global ratelimiting
-    ratelimiting = True
-    await ctx.respond(f"rate limiting toggled to {ratelimiting}", ephemeral=True)
-
-
-@ratelimit.command(name="disable")
-async def ratelimitdisable(ctx):
-    global ratelimiting
-    ratelimiting = False
-    await ctx.respond(f"rate limiting toggled to {ratelimiting}", ephemeral=True)
-
-
-# clear rate command group
-clearrates = discord.SlashCommandGroup("clearrates", "enable or disable rate clearing")
-
-@clearrates.command(name="clear")
-async def clear(ctx):
-    try:
-        data = loadjson("./rate.json")
-        for key in data:
-            data[key] = 0
-        savejson("./rate.json", data)
-        await ctx.respond("rates cleared", ephemeral=True)
+        importlib.reload(messagehandler)
+        importlib.reload(readyhandler)
+        await ctx.send("Event handlers reloaded")
+        logger.info("reloaded main event handlers")
     except Exception as e:
-        await ctx.respond(f"An error occurred while clearing rates: {e}", ephemeral=True)
-
-
-@clearrates.command(name="enable")
-async def enableclearrates(ctx):
-    global clearingrates
-    clearingrates = True
-    await ctx.respond(f"rate clearing toggled to {clearingrates}", ephemeral=True)
-
-
-@clearrates.command(name="disable")
-async def disableclearrates(ctx):
-    global clearingrates
-    clearingrates = False
-    await ctx.respond(f"rate clearing toggled to {clearingrates}", ephemeral=True)
+        await ctx.send(f"Error reloading: {e}")
+        logger.error("event handlers could not be reloaded")
+        logger.error(e)
 
 
 # discord events
 @client.event
 async def on_ready():
-    logger.info(f"Logged in as {client.user}")
-    logger.info("Bot is running!! Have fun!! :3")
-    client.loop.create_task(clearrate())
+    await readyhandler(client)
     
 @client.event
 async def on_message(message):
-    if message.author == client.user:
-        return
-    logger.info(f'Message "{message.content}" sent by user {message.author}')
-    data = loadjson("./rate.json")
-    user_id = str(message.author.id)
-    data[user_id] = data.get(user_id, 0) + 1
-    savejson("./rate.json", data)
-    if data[user_id] < limit and ratelimiting:
-        if message.content.lower().strip() == __SECRET:
-            try:
-                await message.delete()
-            except Exception as e:
-                logger.error(f"Error deleting message: {e}")
-            await message.author.send(YAP)
-            logger.info("clue given")
-        else:
-            logger.info("Incorrect guess.")
-    elif data[user_id] >= limit and ratelimiting:
-        await message.author.send("You are sending requests too quickly.")
-    elif not ratelimiting:
-        logger.info("Rate limiting is off.")
+    await messagehandler(client, message, limit, ratelimiting, __SECRET, YAP)
 
 
-client.add_application_command(ratelimit)
-client.add_application_command(clearrates)
 client.run(__TOKEN)
 
 # (c) Copyright 2024 Natalie http://github.com/ellipticobj http://ithub.com/mysteriousellipsis
