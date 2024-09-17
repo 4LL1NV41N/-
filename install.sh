@@ -27,9 +27,9 @@ sudo pip3 install py-cord
 sudo pip3 install python-dotenv
 sudo pip3 install datetime
 sudo git clone http://github.com/4ll1nv41n/-/
-sudo chmod +x ./-/runbot
+sudo chmod +x ./-/startbot
 sudo chmod +x ./-/changetoken
-sudo mv ./-/runbot ./runbot
+sudo mv ./-/startbot ./startbot
 
 echo ""
 echo ""
