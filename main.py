@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 # made with love by natalie!! :3c
 
 # logging config
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(filename="log",level=logging.INFO,format="%(asctime)s - [%(levelname)s]: %(message)s")
 
 # loading token
 load_dotenv()
@@ -33,7 +33,7 @@ def loadjson(filename, defaultval="{\n    \n}"):
         logging.info(f"initializing {filename}")
         with open(filename, "w") as file:
             json.dump(defaultval, file, indent=4)
-        return defaultval
+        return json.load(file)
     
 
 def savejson(filename, data):
