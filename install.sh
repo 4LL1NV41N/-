@@ -21,13 +21,13 @@ sudo apt install tmux
 sudo apt install git
 sudo apt install python3
 sudo apt install python3-pip -y
-python3 -m pip config set global.break-system-packages true
-pip3 install py-cord
-pip3 install python-dotenv
-pip3 install datetime
-git clone http://github.com/4ll1nv41n/-/
-chmod +x ./-/runbot
-chmod +x ./-/changetoken
+sudo python3 -m pip config set global.break-system-packages true
+sudo pip3 install py-cord
+sudo pip3 install python-dotenv
+sudo pip3 install datetime
+sudo git clone http://github.com/4ll1nv41n/-/
+sudo chmod +x ./-/runbot
+sudo chmod +x ./-/changetoken
 sudo mv ./-/runbot ./runbot
 
 echo ""
