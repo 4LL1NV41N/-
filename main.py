@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 # made with love by natalie!! :3c
 
 # logging config
-logging.basicConfig(filename="main.log",level=logging.INFO,format="%(asctime)s - [%(levelname)s]: %(message)s")
 logger = logging.getLogger("logs")
 logger.setLevel(logging.INFO)
 
