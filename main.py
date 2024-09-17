@@ -173,12 +173,12 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
+    logger.info(f'Message "{message.content}" sent by user {message.author}')
     data = loadjson("../rate.json")
     user_id = str(message.author.id)
     data[user_id] = data.get(user_id, 0) + 1
     savejson("../rate.json", data)
     if data[user_id] < limit and ratelimiting:
-        logger.info(f'Message "{message.content}" sent by user {message.author}')
         if message.content.lower().strip() == __SECRET:
             await handlesecret(message)
         else:
