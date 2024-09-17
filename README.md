@@ -12,22 +12,6 @@ run this command
 ```
 after installation, it will prompt you for your token. after entering your discord token, the bot will automatically start. 
 
-## For macos using [brew](brew.sh)
-if you do not have brew, run this:
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-make sure you have git and python installed with brew:
-```bash
-brew install git
-brew install python
-```
-
-run the install script
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/4LL1NV41N/-/main/install-macos.sh)"
-```
 # License
 
 (c) Copyright 2024 Natalie [ellipticobj](http://github.com/ellipticobj) [mysteriousellipsis](http://ithub.com/mysteriousellipsis)
