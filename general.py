@@ -28,8 +28,3 @@ async def clearrate(clearingrates):
             logger.info("Rates cleared.")
         else:
             logger.info("Rate clearing is turned off.")
-            
-async def is_mod(ctx):
-    # Check if the user has the 'Moderator' role
-    mod_role = discord.utils.get(ctx.guild.roles, name='Moderator')
-    return mod_role in ctx.author.roles

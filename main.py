@@ -1,6 +1,6 @@
 import discord, os,  logging, importlib
 from dotenv import load_dotenv
-from handlers import messagehandler, readyhandler
+from mainhandlers import messagehandler, readyhandler
 
 # made with love by natalie!! :3c
 
@@ -11,7 +11,6 @@ TODO: make cog loading and reloading in a cog
 TODO: organize file names because wtf is this????
 TODO: edit install.sh so that its instructions make more sense
 '''
-
 
 # logging config
 logger = logging.getLogger("logs")
