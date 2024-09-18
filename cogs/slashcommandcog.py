@@ -9,14 +9,14 @@ class SlashCommandCog(commands.Cog):
     ratelimit = discord.SlashCommandGroup("ratelimit", "enable or disable rate limiting")
 
     @ratelimit.command(name="enable")
-    async def ratelimitenable(ctx):
+    async def ratelimitenable(self, ctx):
         global ratelimiting
         ratelimiting = True
         await ctx.respond(f"rate limiting toggled to {ratelimiting}", ephemeral=True)
 
 
     @ratelimit.command(name="disable")
-    async def ratelimitdisable(ctx):
+    async def ratelimitdisable(self, ctx):
         global ratelimiting
         ratelimiting = False
         await ctx.respond(f"rate limiting toggled to {ratelimiting}", ephemeral=True)
@@ -26,7 +26,7 @@ class SlashCommandCog(commands.Cog):
     clearrates = discord.SlashCommandGroup("clearrates", "enable or disable rate clearing")
 
     @clearrates.command(name="clear")
-    async def clear(ctx):
+    async def clear(self, ctx):
         try:
             data = jsonhandlers.loadjson("./rate.json")
             for key in data:
@@ -38,14 +38,14 @@ class SlashCommandCog(commands.Cog):
 
 
     @clearrates.command(name="enable")
-    async def enableclearrates(ctx):
+    async def enableclearrates(self, ctx):
         global clearingrates
         clearingrates = True
         await ctx.respond(f"rate clearing toggled to {clearingrates}", ephemeral=True)
 
 
     @clearrates.command(name="disable")
-    async def disableclearrates(ctx):
+    async def disableclearrates(self, ctx):
         global clearingrates
         clearingrates = False
         await ctx.respond(f"rate clearing toggled to {clearingrates}", ephemeral=True)
