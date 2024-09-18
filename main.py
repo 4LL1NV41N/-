@@ -51,7 +51,8 @@ client = discord.Bot(intents=discord.Intents.all(),debug_guilds=[127379873370367
 # Loading cogs
 cognames = [
     'slashcommandcog',
-    'commandcog'
+    'commandcog',
+    'admincog'
 ]
 
 if __name__ == '__main__':
@@ -60,7 +61,7 @@ if __name__ == '__main__':
             client.load_extension(f"cogs.{extension}")
             logger.info(f"Loaded extension {extension}")
         except Exception as e:
-            logger.error(f"Failed to load extension {extension}: {e}")
+            logger.error(f"Failed to load {extension}: {e}")
 
         
 @client.command(name="reload")
