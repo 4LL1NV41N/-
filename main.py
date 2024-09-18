@@ -1,4 +1,4 @@
-import discord, os,  logging, importlib
+import discord, os,  logging, signal
 from dotenv import load_dotenv
 from mainhandlers import messagehandler, readyhandler
 
@@ -7,26 +7,19 @@ from mainhandlers import messagehandler, readyhandler
 versionnum = 2
 
 '''
-TODO: make cog loading and reloading in a cog
-TODO: organize file names because wtf is this????
 TODO: edit install.sh so that its instructions make more sense
 '''
 
 # logging config
 logger = logging.getLogger("logs")
 logger.setLevel(logging.INFO)
-
 consolehandler = logging.StreamHandler()
 filehandler = logging.FileHandler("./main.log")
-
 consolehandler.setLevel(logging.INFO)
 filehandler.setLevel(logging.INFO)
-
 formatter = logging.Formatter("%(asctime)s - [%(levelname)s]: %(message)s")
-
 consolehandler.setFormatter(formatter)
 filehandler.setFormatter(formatter)
-
 logger.addHandler(consolehandler)
 logger.addHandler(filehandler)
 
@@ -63,6 +56,15 @@ if __name__ == '__main__':
         except Exception as e:
             logger.error(f"Failed to load {extension}: {e}")
 
+def ext_reloadcogs(signal_number, frame):
+    logger.info("Received signal to reload cogs.")
+    for extension in cognames:
+        try:
+            client.reload_extension(extension)
+            logger.info(f"Reloaded extension {extension}")
+        except Exception as e:
+            logger.error(f"Failed to reload extension {extension}: {e}")
+
 # discord events
 @client.event
 async def on_ready():
@@ -72,6 +74,7 @@ async def on_ready():
 async def on_message(message):
     await messagehandler(client, message, limit, ratelimiting, __SECRET, YAP)
 
+signal.signal(signal.SIGUSR1, ext_reloadcogs)
 
 client.run(__TOKEN)
 
