@@ -17,7 +17,7 @@ logger = logging.getLogger("logs")
 logger.setLevel(logging.INFO)
 
 consolehandler = logging.StreamHandler()
-filehandler = logging.FileHandler("./-/main.log")
+filehandler = logging.FileHandler("./main.log")
 
 consolehandler.setLevel(logging.INFO)
 filehandler.setLevel(logging.INFO)
@@ -47,7 +47,6 @@ limit = 40
 
 # starting bot
 client = discord.Bot(intents=discord.Intents.all(),debug_guilds=[1273798733703675976])
-os.chdir("../")
 
 # Loading cogs
 cognames = [
